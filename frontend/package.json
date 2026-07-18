@@ -1,0 +1,23 @@
+{
+  "name": "jos-ceunen-frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "TMPDIR=/tmp nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "fslightbox-vue": "^2.1.3",
+    "nuxt": "^3.16.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "sass": "^1.85.0",
+    "typescript": "^5.8.0",
+    "vue-tsc": "^2.2.0"
+  }
+}

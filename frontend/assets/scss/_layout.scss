@@ -1,0 +1,66 @@
+@use 'variables' as *;
+
+.container {
+  width: min(100% - 2rem, $max-width);
+  margin-inline: auto;
+}
+
+.site-header {
+  padding: $space-md 0;
+  border-bottom: 1px solid $color-border;
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-md;
+  }
+}
+
+.site-title {
+  font-size: 1.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: $color-text;
+}
+
+.site-nav {
+  display: flex;
+  gap: $space-md;
+
+  a {
+    text-decoration: none;
+    color: $color-muted;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    &.router-link-active,
+    &:hover {
+      color: $color-text;
+    }
+  }
+}
+
+.site-main {
+  padding: $space-lg 0 $space-xl;
+}
+
+.site-footer {
+  padding: $space-lg 0;
+  border-top: 1px solid $color-border;
+  text-align: center;
+  font-size: 0.85rem;
+  color: $color-muted;
+}
+
+.page-intro {
+  margin-bottom: $space-lg;
+  max-width: 40rem;
+
+  p {
+    margin: 0.5rem 0 0;
+    color: $color-muted;
+  }
+}

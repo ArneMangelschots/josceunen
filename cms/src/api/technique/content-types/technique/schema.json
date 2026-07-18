@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "techniques",
+  "info": {
+    "singularName": "technique",
+    "pluralName": "techniques",
+    "displayName": "Techniek",
+    "description": "Tags voor technieken (olieverf, acryl, …)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "artworks": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::artwork.artwork",
+      "mappedBy": "techniques"
+    }
+  }
+}
