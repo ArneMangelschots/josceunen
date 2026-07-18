@@ -1,6 +1,6 @@
 import type { Core } from '@strapi/strapi';
 
-const LAYOUT_VERSION = 1;
+const LAYOUT_VERSION = 2;
 const VERSION_KEY = 'josceunen.admin_layout_version';
 
 type CmConfig = {
@@ -108,6 +108,7 @@ async function configureArtworkAdmin(strapi: Core.Strapi) {
 
   config.layouts.edit = [
     [{ name: 'title', size: 8 }, { name: 'date', size: 4 }],
+    [{ name: 'slug', size: 12 }],
     [{ name: 'images', size: 12 }],
     [{ name: 'techniques', size: 6 }, { name: 'themes', size: 6 }],
     [{ name: 'info', size: 12 }],
@@ -144,9 +145,9 @@ async function configureArtworkAdmin(strapi: Core.Strapi) {
   });
   setFieldMeta(config, 'slug', {
     editLabel: 'URL-naam',
-    description: 'Wordt automatisch vanuit de titel aangemaakt.',
-    visible: false,
-    editable: false,
+    description: 'Wordt automatisch vanuit de titel aangemaakt. Nodig om te kunnen publiceren.',
+    visible: true,
+    editable: true,
   });
 
   await saveCmConfig(strapi, 'api::artwork.artwork', config, id);
