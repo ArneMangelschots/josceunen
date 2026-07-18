@@ -1,108 +1,79 @@
 <script setup lang="ts">
-import type { Artwork, Technique, Theme } from '~/types/strapi'
-import { buildArtworkQuery } from '~/utils/artworkQuery'
-
-const route = useRoute()
-const router = useRouter()
-const { fetchCollection } = useStrapi()
-
-const selectedTechnique = computed({
-  get: () => (route.query.techniek as string) || '',
-  set: (value: string) => updateQuery({ techniek: value || undefined }),
+definePageMeta({
+  layout: false,
 })
-
-const selectedTheme = computed({
-  get: () => (route.query.thema as string) || '',
-  set: (value: string) => updateQuery({ thema: value || undefined }),
-})
-
-const selectedYear = computed({
-  get: () => (route.query.jaar as string) || '',
-  set: (value: string) => updateQuery({ jaar: value || undefined }),
-})
-
-function updateQuery(patch: Record<string, string | undefined>) {
-  const query = { ...route.query }
-  for (const [key, value] of Object.entries(patch)) {
-    if (value) query[key] = value
-    else delete query[key]
-  }
-  router.replace({ query })
-}
-
-function resetFilters() {
-  router.replace({ query: {} })
-}
-
-const { data: techniques } = await useAsyncData('techniques', () =>
-  fetchCollection<Technique>('/api/techniques', { sort: 'name:asc' })
-)
-
-const { data: themes } = await useAsyncData('themes', () =>
-  fetchCollection<Theme>('/api/themes', { sort: 'name:asc' })
-)
-
-const { data: yearSource } = await useAsyncData('artwork-years', () =>
-  fetchCollection<Artwork>('/api/artworks', {
-    'fields[0]': 'date',
-    sort: 'date:desc',
-    'pagination[pageSize]': 100,
-  })
-)
-
-const years = computed(() => {
-  const set = new Set<number>()
-  for (const artwork of yearSource.value ?? []) {
-    if (artwork.date) set.add(new Date(artwork.date).getFullYear())
-  }
-  return [...set].sort((a, b) => b - a)
-})
-
-const { data: artworks, pending, refresh } = await useAsyncData(
-  'artworks',
-  () =>
-    fetchCollection<Artwork>(
-      '/api/artworks',
-      buildArtworkQuery({
-        techniek: selectedTechnique.value,
-        thema: selectedTheme.value,
-        jaar: selectedYear.value,
-      })
-    ),
-  { watch: [selectedTechnique, selectedTheme, selectedYear] }
-)
 
 useSeoMeta({
-  title: 'Jos Ceunen — Kunstwerken',
-  description: 'Overzicht van kunstwerken door Jos Ceunen.',
+  title: 'Jos Ceunen',
+  description: 'Website in opbouw.',
 })
 </script>
 
 <template>
-  <div>
-    <header class="page-intro">
-      <h1>De kunst van Jos Ceunen</h1>
-      <p>Een selectie van recente werken. Filter op techniek, thema of jaar.</p>
-    </header>
-
-    <ArtworkFilters
-      :techniques="techniques ?? []"
-      :themes="themes ?? []"
-      :years="years"
-      v-model:selected-technique="selectedTechnique"
-      v-model:selected-theme="selectedTheme"
-      v-model:selected-year="selectedYear"
-      @reset="resetFilters"
-    />
-
-    <div v-if="pending" class="empty-state">Kunstwerken laden…</div>
-
-    <div v-else-if="!artworks?.length" class="empty-state">
-      Geen kunstwerken gevonden met deze filters.
-    </div>
-
-    <div v-else class="artwork-grid">
-      <ArtworkCard v-for="artwork in artworks" :key="artwork.documentId" :artwork="artwork" />
-    </div>
+  <div class="construction">
+    <div class="construction__bg" aria-hidden="true" />
+    <main class="construction__main">
+      <p class="construction__brand">Jos Ceunen</p>
+      <h1 class="construction__title">Website in opbouw</h1>
+      <p class="construction__text">Binnenkort vindt u hier het portfolio.</p>
+    </main>
   </div>
 </template>
+
+<style scoped lang="scss">
+.construction {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  overflow: hidden;
+  background: #1c1916;
+  color: #f3eee6;
+}
+
+.construction__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(196, 146, 90, 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 80%, rgba(90, 110, 120, 0.18), transparent 50%),
+    linear-gradient(165deg, #2a2520 0%, #1c1916 45%, #141210 100%);
+}
+
+.construction__main {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 28rem;
+}
+
+.construction__brand {
+  margin: 0 0 1.75rem;
+  font-family: 'Bellota Text', serif;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
+.construction__title {
+  margin: 0 0 0.75rem;
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c9bfb2;
+}
+
+.construction__text {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #a89f93;
+}
+</style>
