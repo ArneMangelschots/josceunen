@@ -16,7 +16,7 @@ In Cloudflare Dashboard → Workers & Pages → Create → Pages:
 | Variable | Value |
 |----------|--------|
 | `NUXT_PUBLIC_STRAPI_URL` | `https://api.josceunen.be` |
-| `NODE_VERSION` | `20` |
+| `NODE_VERSION` | `22` |
 
 Nuxt is configured with Nitro preset `cloudflare-pages` in `nuxt.config.ts`.
 
