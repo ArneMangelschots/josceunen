@@ -68,21 +68,30 @@
 }
 
 .artwork-grid {
-  display: grid;
-  gap: $space-md;
-  align-items: start;
-  grid-template-columns: 1fr;
+  column-gap: $space-md;
+  column-count: 1;
 
   @media (min-width: $bp-md) {
-    grid-template-columns: repeat(3, 1fr);
+    column-count: 3;
+
+    &--cols-1 {
+      column-count: 1;
+    }
+
+    &--cols-2 {
+      column-count: 2;
+    }
   }
 }
 
 .artwork-card {
   text-decoration: none;
   color: inherit;
-  display: block;
-  min-width: 0;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: $space-md;
+  break-inside: avoid;
+  page-break-inside: avoid;
 
   &__image {
     overflow: hidden;

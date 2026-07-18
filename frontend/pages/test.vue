@@ -72,6 +72,13 @@ const { data: artworks, pending, refresh } = await useAsyncData(
   { watch: [selectedTechnique, selectedTheme, selectedYear] }
 )
 
+const gridColsClass = computed(() => {
+  const count = artworks.value?.length ?? 0
+  if (count <= 1) return 'artwork-grid--cols-1'
+  if (count === 2) return 'artwork-grid--cols-2'
+  return ''
+})
+
 useSeoMeta({
   title: 'Jos Ceunen — Kunstwerken (preview)',
   description: 'Overzicht van kunstwerken door Jos Ceunen.',
@@ -101,7 +108,7 @@ useSeoMeta({
       Geen kunstwerken gevonden met deze filters.
     </div>
 
-    <div v-else class="artwork-grid">
+    <div v-else class="artwork-grid" :class="gridColsClass">
       <ArtworkCard v-for="artwork in artworks" :key="artwork.documentId" :artwork="artwork" />
     </div>
   </div>
