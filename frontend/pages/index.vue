@@ -119,7 +119,7 @@ useSeoMeta({
   font-weight: 300;
   line-height: 1.55;
   color: $color-muted;
-  max-width: 20rem;
+  max-width: 24.5rem;
 }
 
 .landing__cta {
