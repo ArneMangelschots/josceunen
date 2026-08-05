@@ -45,6 +45,18 @@
 
 .site-main {
   padding: $space-lg 0 $space-xl;
+
+  &--landing {
+    padding: 0;
+  }
+}
+
+.site--landing {
+  .site-header {
+    position: relative;
+    z-index: 3;
+    background: $color-bg;
+  }
 }
 
 .site-footer {
