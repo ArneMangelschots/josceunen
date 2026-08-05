@@ -115,11 +115,11 @@ useSeoMeta({
 .landing__intro {
   margin: 0;
   font-family: $font-body;
-  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  font-size: clamp(0.9rem, 1.8vw, 1rem);
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.55;
   color: $color-muted;
-  max-width: 22rem;
+  max-width: 16.5rem;
 }
 
 .landing__cta {
