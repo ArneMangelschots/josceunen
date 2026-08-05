@@ -68,30 +68,27 @@
 }
 
 .artwork-grid {
-  column-gap: $space-md;
-  column-count: 1;
+  position: relative;
+  width: 100%;
+}
 
-  @media (min-width: $bp-md) {
-    column-count: 3;
+.artwork-grid__sizer,
+.artwork-card {
+  width: 100%;
+}
 
-    &--cols-1 {
-      column-count: 1;
-    }
-
-    &--cols-2 {
-      column-count: 2;
-    }
+@media (min-width: $bp-md) {
+  .artwork-grid__sizer,
+  .artwork-card {
+    width: calc((100% - 48px) / 3);
   }
 }
 
 .artwork-card {
   text-decoration: none;
   color: inherit;
-  display: inline-block;
-  width: 100%;
+  display: block;
   margin-bottom: $space-md;
-  break-inside: avoid;
-  page-break-inside: avoid;
 
   &__image {
     overflow: hidden;
