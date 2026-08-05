@@ -60,6 +60,9 @@ useSeoMeta({
 
       <div class="landing__center">
         <p class="landing__brand">Jos Ceunen</p>
+        <p class="landing__intro">
+          Jos Ceunen is een hobby-kunstenaar met een absolute passie voor kunst, schoonheid en het leven.
+        </p>
         <NuxtLink to="/kunstwerken" class="landing__cta">Ontdek alle kunst</NuxtLink>
       </div>
     </div>
@@ -93,8 +96,9 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: $space-lg;
+  gap: $space-md;
   text-align: center;
+  max-width: 28rem;
 }
 
 .landing__brand {
@@ -108,7 +112,18 @@ useSeoMeta({
   color: $color-muted;
 }
 
+.landing__intro {
+  margin: 0;
+  font-family: $font-body;
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  font-weight: 300;
+  line-height: 1.7;
+  color: $color-muted;
+  max-width: 22rem;
+}
+
 .landing__cta {
+  margin-top: $space-xs;
   display: inline-flex;
   align-items: center;
   justify-content: center;
