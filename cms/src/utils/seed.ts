@@ -77,6 +77,30 @@ async function attachSeedImages(strapi: Core.Strapi) {
   strapi.log.info('Image attachment completed');
 }
 
+async function ensureHomepage(strapi: Core.Strapi) {
+  const existing = await strapi.documents('api::homepage.homepage').findFirst({});
+  if (existing) return;
+
+  const artworks = await strapi.documents('api::artwork.artwork').findMany({
+    status: 'published',
+    limit: 5,
+    sort: { date: 'desc' },
+  });
+
+  if (!artworks.length) return;
+
+  await strapi.documents('api::homepage.homepage').create({
+    data: {
+      featuredArtworks: {
+        connect: artworks.map((artwork) => artwork.documentId),
+      },
+    },
+    status: 'published',
+  });
+
+  strapi.log.info('Homepage seeded with featured artworks');
+}
+
 export async function seedContent(strapi: Core.Strapi) {
   const artworkCount = await strapi.documents('api::artwork.artwork').count({});
   if (artworkCount > 0) {
@@ -89,10 +113,12 @@ export async function seedContent(strapi: Core.Strapi) {
     );
     if (hasMedia) {
       strapi.log.info('Seed skipped: artworks already exist');
+      await ensureHomepage(strapi);
       return;
     }
     strapi.log.info('Re-seeding images for existing artworks…');
     await attachSeedImages(strapi);
+    await ensureHomepage(strapi);
     return;
   }
 
@@ -217,6 +243,21 @@ export async function seedContent(strapi: Core.Strapi) {
         },
       ],
       portrait: portraitId,
+    },
+    status: 'published',
+  });
+
+  const createdArtworks = await strapi.documents('api::artwork.artwork').findMany({
+    status: 'published',
+    limit: 5,
+    sort: { date: 'desc' },
+  });
+
+  await strapi.documents('api::homepage.homepage').create({
+    data: {
+      featuredArtworks: {
+        connect: createdArtworks.map((artwork) => artwork.documentId),
+      },
     },
     status: 'published',
   });

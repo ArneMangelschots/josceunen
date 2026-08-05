@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "homepages",
+  "info": {
+    "singularName": "homepage",
+    "pluralName": "homepages",
+    "displayName": "Homepagina",
+    "description": "Uitgelichte kunstwerken op de landingspagina"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "featuredArtworks": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::artwork.artwork"
+    }
+  }
+}

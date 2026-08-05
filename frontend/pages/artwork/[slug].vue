@@ -36,7 +36,7 @@ useSeoMeta({
 <template>
   <article v-if="artwork" class="artwork-detail">
     <div>
-      <NuxtLink to="/" class="artwork-detail__back">&larr; Terug naar overzicht</NuxtLink>
+      <NuxtLink to="/kunstwerken" class="artwork-detail__back">&larr; Terug naar overzicht</NuxtLink>
       <ArtworkGallery
         v-if="artwork.images?.length"
         :images="artwork.images"

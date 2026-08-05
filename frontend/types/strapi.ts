@@ -110,6 +110,12 @@ export interface About {
   portrait?: StrapiMedia | null
 }
 
+export interface Homepage {
+  id: number
+  documentId: string
+  featuredArtworks?: Artwork[]
+}
+
 /** Strapi v5 flattened document shape */
 export function isFlatArtwork(item: Record<string, unknown>): item is Artwork {
   return typeof item.title === 'string' && typeof item.slug === 'string'

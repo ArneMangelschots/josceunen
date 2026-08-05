@@ -1,6 +1,6 @@
 import type { Core } from '@strapi/strapi';
 
-const LAYOUT_VERSION = 2;
+const LAYOUT_VERSION = 3;
 const VERSION_KEY = 'josceunen.admin_layout_version';
 
 type CmConfig = {
@@ -213,6 +213,19 @@ async function configureAboutAdmin(strapi: Core.Strapi) {
   await saveCmConfig(strapi, 'api::about.about', config, id);
 }
 
+async function configureHomepageAdmin(strapi: Core.Strapi) {
+  const { id, config } = await loadCmConfig(strapi, 'api::homepage.homepage');
+
+  config.layouts.edit = [[{ name: 'featuredArtworks', size: 12 }]];
+
+  setFieldMeta(config, 'featuredArtworks', {
+    editLabel: 'Uitgelichte kunstwerken',
+    description: 'Kies 4 of 5 kunstwerken die rond het logo op de homepage zweven.',
+  });
+
+  await saveCmConfig(strapi, 'api::homepage.homepage', config, id);
+}
+
 export async function configureAdminExperience(strapi: Core.Strapi) {
   const versionRow = await strapi.db.query('strapi::core-store').findOne({
     where: { key: VERSION_KEY },
@@ -233,6 +246,7 @@ export async function configureAdminExperience(strapi: Core.Strapi) {
     nameDesc: 'Naam van het thema, bijvoorbeeld “Landschap”.',
   });
   await configureAboutAdmin(strapi);
+  await configureHomepageAdmin(strapi);
 
   const versionValue = String(LAYOUT_VERSION);
   if (versionRow) {

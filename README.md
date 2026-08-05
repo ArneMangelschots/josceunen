@@ -66,6 +66,7 @@ Site: [http://localhost:3000](http://localhost:3000)
 - Filter thema: `filters[themes][slug][$eq]=landschap`
 - Detail: `GET /api/artworks?filters[slug][$eq]=licht-over-het-veld&populate=images,techniques,themes`
 - Over: `GET /api/about?populate=portrait`
+- Homepage: `GET /api/homepage?populate[featuredArtworks][populate][images]=true`
 
 ## Productie
 

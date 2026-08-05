@@ -4,7 +4,7 @@
       <div class="container">
         <NuxtLink to="/" class="site-title">Jos Ceunen</NuxtLink>
         <nav class="site-nav" aria-label="Hoofdnavigatie">
-          <NuxtLink to="/">Home</NuxtLink>
+          <NuxtLink to="/kunstwerken">Kunstwerken</NuxtLink>
           <NuxtLink to="/about">Over</NuxtLink>
         </nav>
       </div>

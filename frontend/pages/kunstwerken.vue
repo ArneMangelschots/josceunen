@@ -80,7 +80,7 @@ const masonryKey = computed(
 )
 
 useSeoMeta({
-  title: 'Jos Ceunen — Kunstwerken (preview)',
+  title: 'Jos Ceunen — Kunstwerken',
   description: 'Overzicht van kunstwerken door Jos Ceunen.',
 })
 </script>

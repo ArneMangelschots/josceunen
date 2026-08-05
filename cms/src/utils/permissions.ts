@@ -5,6 +5,7 @@ const PUBLIC_ACTIONS: Record<string, string[]> = {
   'api::theme.theme': ['find', 'findOne'],
   'api::artwork.artwork': ['find', 'findOne'],
   'api::about.about': ['find'],
+  'api::homepage.homepage': ['find'],
 };
 
 export async function setPublicPermissions(strapi: Core.Strapi) {
