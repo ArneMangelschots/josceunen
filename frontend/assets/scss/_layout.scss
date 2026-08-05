@@ -18,11 +18,46 @@
 }
 
 .site-title {
+  display: inline-grid;
+  align-items: center;
+  justify-items: start;
   font-size: 1.35rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   text-decoration: none;
   color: $color-text;
+
+  &__label {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+    transition: opacity 0.35s ease, transform 0.35s ease, letter-spacing 0.35s ease;
+
+    &--compact {
+      opacity: 1;
+      transform: translateY(0);
+      letter-spacing: 0.14em;
+    }
+
+    &--expanded {
+      opacity: 0;
+      transform: translateY(0.2rem);
+      pointer-events: none;
+    }
+  }
+
+  &:hover,
+  &:focus-visible {
+    .site-title__label--compact {
+      opacity: 0;
+      transform: translateY(-0.15rem);
+    }
+
+    .site-title__label--expanded {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  }
 }
 
 .site-nav {
