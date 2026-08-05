@@ -13,14 +13,13 @@ const { data: homepage } = await useAsyncData('homepage', () =>
   })
 )
 
-const featured = computed(() => (homepage.value?.featuredArtworks ?? []).slice(0, 5))
+const featured = computed(() => (homepage.value?.featuredArtworks ?? []).slice(0, 4))
 
 const floatPositions = [
-  { top: '10%', left: '6%', delay: '0s', size: 'clamp(7rem, 18vw, 14rem)' },
-  { top: '12%', right: '7%', delay: '0.4s', size: 'clamp(6.5rem, 16vw, 12.5rem)' },
-  { top: '44%', left: '4%', delay: '0.8s', size: 'clamp(6rem, 15vw, 11.5rem)' },
-  { top: '40%', right: '5%', delay: '1.1s', size: 'clamp(7.5rem, 17vw, 13rem)' },
-  { bottom: '12%', left: '20%', delay: '1.5s', size: 'clamp(5.5rem, 14vw, 10.5rem)' },
+  { top: '12%', left: '8%', delay: '0s', size: 'clamp(7.5rem, 18vw, 13.5rem)' },
+  { top: '14%', right: '8%', delay: '0.45s', size: 'clamp(7rem, 17vw, 12.5rem)' },
+  { bottom: '16%', left: '10%', delay: '0.9s', size: 'clamp(7rem, 16vw, 12rem)' },
+  { bottom: '14%', right: '9%', delay: '1.35s', size: 'clamp(7.5rem, 18vw, 13rem)' },
 ]
 
 useSeoMeta({
@@ -155,11 +154,7 @@ useSeoMeta({
   }
 
   @media (max-width: #{$bp-md - 1px}) {
-    width: clamp(4.5rem, 28vw, 7.5rem) !important;
-
-    &:nth-child(5) {
-      display: none;
-    }
+    width: clamp(4.75rem, 30vw, 8rem) !important;
   }
 }
 

@@ -83,7 +83,7 @@ async function ensureHomepage(strapi: Core.Strapi) {
 
   const artworks = await strapi.documents('api::artwork.artwork').findMany({
     status: 'published',
-    limit: 5,
+    limit: 4,
     sort: { date: 'desc' },
   });
 
@@ -249,7 +249,7 @@ export async function seedContent(strapi: Core.Strapi) {
 
   const createdArtworks = await strapi.documents('api::artwork.artwork').findMany({
     status: 'published',
-    limit: 5,
+    limit: 4,
     sort: { date: 'desc' },
   });
 

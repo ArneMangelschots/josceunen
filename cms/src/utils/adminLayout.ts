@@ -220,7 +220,7 @@ async function configureHomepageAdmin(strapi: Core.Strapi) {
 
   setFieldMeta(config, 'featuredArtworks', {
     editLabel: 'Uitgelichte kunstwerken',
-    description: 'Kies 4 of 5 kunstwerken die rond het logo op de homepage zweven.',
+    description: 'Kies 4 kunstwerken die rond het logo op de homepage zweven.',
   });
 
   await saveCmConfig(strapi, 'api::homepage.homepage', config, id);
