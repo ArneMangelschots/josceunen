@@ -55,6 +55,7 @@ useSeoMeta({
           :height="artwork.images[0].height"
           loading="eager"
         />
+        <span class="landing__float-title">{{ artwork.title }}</span>
       </NuxtLink>
 
       <div class="landing__center">
@@ -139,18 +140,46 @@ useSeoMeta({
   overflow: hidden;
   border-radius: $radius;
   background: $color-border;
+  text-decoration: none;
+  color: inherit;
   animation: landing-float 7s ease-in-out infinite alternate;
-  transition: opacity 0.3s ease;
 
   img {
     width: 100%;
     height: auto;
     display: block;
+    transition: transform 0.45s ease;
   }
 
-  &:hover {
+  &-title {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 1.75rem 0.65rem 0.65rem;
+    background: linear-gradient(to top, rgba(26, 26, 26, 0.55), transparent);
+    font-family: $font-display;
+    font-size: clamp(0.75rem, 1.4vw, 0.95rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.25;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(0.35rem);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+  }
+
+  &:hover,
+  &:focus-visible {
     z-index: 4;
-    opacity: 0.92;
+
+    img {
+      transform: scale(1.03);
+    }
+
+    .landing__float-title {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @media (max-width: #{$bp-md - 1px}) {
