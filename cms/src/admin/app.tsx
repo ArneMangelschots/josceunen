@@ -1,6 +1,33 @@
 import type { StrapiApp } from '@strapi/strapi/admin';
 import { Plus, Images } from '@strapi/icons';
 
+const ARTWORKS_WIDGET_UID = 'global::josceunen-artworks-overview';
+
+function injectArtworksWidgetStyles() {
+  if (typeof document === 'undefined') return;
+  if (document.getElementById('josceunen-artworks-widget-styles')) return;
+
+  const style = document.createElement('style');
+  style.id = 'josceunen-artworks-widget-styles';
+  style.textContent = `
+    [data-strapi-widget-id="${ARTWORKS_WIDGET_UID}"] main {
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+    }
+
+    [data-strapi-widget-id="${ARTWORKS_WIDGET_UID}"] [data-radix-scroll-area-viewport] {
+      overflow: visible !important;
+    }
+
+    [data-strapi-widget-id="${ARTWORKS_WIDGET_UID}"] [data-radix-scroll-area-viewport] > div {
+      height: auto !important;
+      display: block !important;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 export default {
   config: {
     locales: ['nl'],
@@ -81,5 +108,7 @@ export default {
       ],
     });
   },
-  bootstrap() {},
+  bootstrap() {
+    injectArtworksWidgetStyles();
+  },
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Typography, Link, Button, Badge } from '@strapi/design-system';
 import { Plus, Pencil } from '@strapi/icons';
@@ -29,6 +29,16 @@ function thumbUrl(images?: ArtworkRow['images']) {
   if (!image) return null;
   return image.formats?.thumbnail?.url || image.url || null;
 }
+
+const rowStyle: CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: '48px minmax(0, 1fr) auto auto',
+  width: '100%',
+  alignItems: 'center',
+  columnGap: '1rem',
+  paddingTop: '0.5rem',
+  paddingBottom: '0.5rem',
+};
 
 const ArtworksOverviewWidget = () => {
   const { get } = useFetchClient();
@@ -70,7 +80,7 @@ const ArtworksOverviewWidget = () => {
 
   if (!artworks.length) {
     return (
-      <Box>
+      <Box width="100%">
         <Widget.NoData>Nog geen kunstwerken toegevoegd.</Widget.NoData>
         <Box paddingTop={4}>
           <Button tag={NavLink} to={CREATE_URL} startIcon={<Plus />} variant="secondary" size="S">
@@ -82,69 +92,68 @@ const ArtworksOverviewWidget = () => {
   }
 
   return (
-    <Box>
-      <Flex direction="column" gap={3}>
+    <Box width="100%">
+      <Flex direction="column" gap={1} width="100%">
         {artworks.map((artwork) => {
           const editUrl = `${LIST_URL}/${artwork.documentId}`;
           const src = thumbUrl(artwork.images);
           const isPublished = artwork.status === 'published';
 
           return (
-            <Flex
-              key={artwork.documentId}
-              justifyContent="space-between"
-              alignItems="center"
-              gap={2}
-            >
-              <Flex alignItems="center" gap={3} style={{ minWidth: 0, flex: 1 }}>
-                {src ? (
-                  <img
-                    src={src}
-                    alt=""
-                    style={{
-                      width: 48,
-                      height: 48,
-                      objectFit: 'cover',
-                      borderRadius: 4,
-                      flexShrink: 0,
-                    }}
-                  />
-                ) : (
-                  <Box
-                    background="neutral200"
-                    style={{ width: 48, height: 48, borderRadius: 4, flexShrink: 0 }}
-                  />
-                )}
-                <Box style={{ minWidth: 0 }}>
+            <div key={artwork.documentId} style={rowStyle}>
+              {src ? (
+                <img
+                  src={src}
+                  alt=""
+                  style={{
+                    width: 48,
+                    height: 48,
+                    objectFit: 'cover',
+                    borderRadius: 4,
+                    display: 'block',
+                  }}
+                />
+              ) : (
+                <Box
+                  background="neutral200"
+                  style={{ width: 48, height: 48, borderRadius: 4 }}
+                />
+              )}
+
+              <Box style={{ minWidth: 0 }}>
+                <Box>
                   <Link tag={NavLink} to={editUrl}>
-                    <Typography fontWeight="semiBold" ellipsis>
+                    <Typography fontWeight="semiBold" ellipsis tag="span">
                       {artwork.title || 'Zonder titel'}
                     </Typography>
                   </Link>
-                  <Typography variant="pi" textColor="neutral600">
+                </Box>
+                <Box paddingTop={1}>
+                  <Typography variant="pi" textColor="neutral600" tag="span">
                     {formatDate(artwork.date)}
                   </Typography>
                 </Box>
-              </Flex>
-              <Flex alignItems="center" gap={2} style={{ flexShrink: 0 }}>
-                <Badge variant={isPublished ? 'success' : 'secondary'}>
-                  {isPublished ? 'Gepubliceerd' : 'Concept'}
-                </Badge>
-                <Button
-                  tag={NavLink}
-                  to={editUrl}
-                  variant="tertiary"
-                  size="S"
-                  aria-label={`Bewerk ${artwork.title || 'kunstwerk'}`}
-                >
-                  <Pencil />
-                </Button>
-              </Flex>
-            </Flex>
+              </Box>
+
+              <Badge variant={isPublished ? 'success' : 'secondary'}>
+                {isPublished ? 'Gepubliceerd' : 'Concept'}
+              </Badge>
+
+              <Button
+                tag={NavLink}
+                to={editUrl}
+                variant="tertiary"
+                size="S"
+                aria-label={`Bewerk ${artwork.title || 'kunstwerk'}`}
+              >
+                <Pencil />
+              </Button>
+            </div>
           );
         })}
       </Flex>
-      <Flex justifyContent="space-between" alignItems="center" paddingTop={4} gap={2}>
+
+      <Flex justifyContent="space-between" alignItems="center" paddingTop={4} gap={2} width="100%">
         <Button tag={NavLink} to={CREATE_URL} startIcon={<Plus />} size="S">
           Nieuw kunstwerk
         </Button>
