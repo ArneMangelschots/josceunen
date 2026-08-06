@@ -27,7 +27,7 @@ useSeoMeta({
         :alt="about.portrait.alternativeText || about.title"
       />
     </figure>
-    <div>
+    <div class="about-page__content">
       <header class="page-intro">
         <h1>{{ about.title }}</h1>
       </header>

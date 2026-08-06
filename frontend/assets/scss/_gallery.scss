@@ -240,21 +240,34 @@
 .about-page {
   display: grid;
   gap: $space-lg;
-  max-width: 52rem;
+  width: 100%;
+  align-items: start;
 
   @media (min-width: $bp-md) {
-    grid-template-columns: 240px 1fr;
-    align-items: start;
+    grid-template-columns: minmax(18rem, 0.9fr) minmax(0, 1.1fr);
+    gap: $space-xl;
   }
 
   &__portrait {
     border-radius: $radius;
     overflow: hidden;
     background: $color-border;
+    width: 100%;
 
     img {
       width: 100%;
+      height: auto;
       display: block;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+    }
+  }
+
+  &__content {
+    min-width: 0;
+
+    .page-intro {
+      max-width: none;
     }
   }
 }
