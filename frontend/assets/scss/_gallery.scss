@@ -249,6 +249,8 @@
   }
 
   &__portrait {
+    margin: 0;
+    padding: 0;
     border-radius: $radius;
     overflow: hidden;
     background: $color-border;
