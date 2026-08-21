@@ -11,7 +11,7 @@ const CREATE_URL = `${LIST_URL}/create`;
 interface ArtworkRow {
   documentId: string;
   title?: string;
-  year?: number;
+  year?: number | string;
   status?: string;
   images?: Array<{ url?: string; formats?: { thumbnail?: { url?: string } } }>;
 }

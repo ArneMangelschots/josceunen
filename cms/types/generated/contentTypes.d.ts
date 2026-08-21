@@ -503,14 +503,7 @@ export interface ApiArtworkArtwork extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    year: Schema.Attribute.Integer &
-      Schema.Attribute.SetMinMax<
-        {
-          min: 1970;
-          max: 2035;
-        },
-        number
-      >;
+    year: Schema.Attribute.String;
   };
 }
 

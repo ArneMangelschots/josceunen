@@ -16,9 +16,8 @@
       "required": true
     },
     "year": {
-      "type": "integer",
-      "min": 1970,
-      "max": 2035
+      "type": "string",
+      "regex": "^\\d{4}$"
     },
     "date": {
       "type": "date",
