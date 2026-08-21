@@ -102,7 +102,18 @@ async function ensureHomepage(strapi: Core.Strapi) {
 }
 
 export async function seedContent(strapi: Core.Strapi) {
-  const artworkCount = await strapi.documents('api::artwork.artwork').count({});
+  try {
+    await seedContentUnsafe(strapi);
+  } catch (error) {
+    strapi.log.error('Seed failed (non-fatal); continuing startup');
+    strapi.log.error(error);
+  }
+}
+
+async function seedContentUnsafe(strapi: Core.Strapi) {
+  const artworkCount = await strapi.db.query('api::artwork.artwork').count();
+  const techniqueCount = await strapi.db.query('api::technique.technique').count();
+
   if (artworkCount > 0) {
     const withImages = await strapi.documents('api::artwork.artwork').findMany({
       populate: ['images'],
@@ -118,6 +129,12 @@ export async function seedContent(strapi: Core.Strapi) {
     }
     strapi.log.info('Re-seeding images for existing artworks…');
     await attachSeedImages(strapi);
+    await ensureHomepage(strapi);
+    return;
+  }
+
+  if (techniqueCount > 0) {
+    strapi.log.info('Seed skipped: techniques already exist without artworks count match');
     await ensureHomepage(strapi);
     return;
   }

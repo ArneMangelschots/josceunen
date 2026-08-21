@@ -8,7 +8,12 @@ export default {
   register(/* { strapi }: { strapi: Core.Strapi } */) {},
 
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
-    await migrateArtworkYears(strapi);
+    try {
+      await migrateArtworkYears(strapi);
+    } catch (error) {
+      strapi.log.error('Artwork year migration failed (non-fatal)');
+      strapi.log.error(error);
+    }
     await setPublicPermissions(strapi);
     await seedContent(strapi);
     await configureAdminExperience(strapi);
