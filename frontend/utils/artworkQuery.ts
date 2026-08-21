@@ -7,7 +7,7 @@ export function buildArtworkQuery(filters: {
     'populate[images]': 'true',
     'populate[techniques]': 'true',
     'populate[themes]': 'true',
-    sort: 'date:desc',
+    sort: 'year:desc',
   }
 
   if (filters.techniek) {
@@ -19,8 +19,7 @@ export function buildArtworkQuery(filters: {
   }
 
   if (filters.jaar) {
-    params['filters[date][$gte]'] = `${filters.jaar}-01-01`
-    params['filters[date][$lte]'] = `${filters.jaar}-12-31`
+    params['filters[year][$eq]'] = filters.jaar
   }
 
   return params

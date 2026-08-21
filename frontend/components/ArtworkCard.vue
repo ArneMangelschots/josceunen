@@ -15,14 +15,6 @@ const tagLine = computed(() => {
   const themes = props.artwork.themes?.map((t) => t.name) ?? []
   return [...techniques, ...themes].join(' · ')
 })
-
-function formatDate(value?: string | null) {
-  if (!value) return ''
-  return new Date(value).toLocaleDateString('nl-BE', {
-    year: 'numeric',
-    month: 'long',
-  })
-}
 </script>
 
 <template>
@@ -39,7 +31,7 @@ function formatDate(value?: string | null) {
       />
     </div>
     <h2 class="artwork-card__title">{{ artwork.title }}</h2>
-    <p v-if="artwork.date" class="artwork-card__meta">{{ formatDate(artwork.date) }}</p>
+    <p v-if="artwork.year" class="artwork-card__meta">{{ artwork.year }}</p>
     <p v-if="tagLine" class="artwork-card__tags">{{ tagLine }}</p>
   </NuxtLink>
 </template>

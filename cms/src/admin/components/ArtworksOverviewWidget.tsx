@@ -11,17 +11,9 @@ const CREATE_URL = `${LIST_URL}/create`;
 interface ArtworkRow {
   documentId: string;
   title?: string;
-  date?: string;
+  year?: string;
   status?: string;
   images?: Array<{ url?: string; formats?: { thumbnail?: { url?: string } } }>;
-}
-
-function formatDate(value?: string) {
-  if (!value) return '—';
-  return new Date(value).toLocaleDateString('nl-BE', {
-    year: 'numeric',
-    month: 'short',
-  });
 }
 
 function thumbUrl(images?: ArtworkRow['images']) {
@@ -53,7 +45,7 @@ const ArtworksOverviewWidget = () => {
           params: {
             page: 1,
             pageSize: 8,
-            sort: 'date:DESC',
+            sort: 'year:DESC',
             populate: 'images',
           },
         });
@@ -130,7 +122,7 @@ const ArtworksOverviewWidget = () => {
                 </Box>
                 <Box paddingTop={1}>
                   <Typography variant="pi" textColor="neutral600" tag="span">
-                    {formatDate(artwork.date)}
+                    {artwork.year || '—'}
                   </Typography>
                 </Box>
               </Box>

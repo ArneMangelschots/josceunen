@@ -18,15 +18,6 @@ if (error.value || !artwork.value) {
   throw createError({ statusCode: 404, statusMessage: 'Kunstwerk niet gevonden' })
 }
 
-function formatDate(value?: string | null) {
-  if (!value) return ''
-  return new Date(value).toLocaleDateString('nl-BE', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
-
 useSeoMeta({
   title: () => `${artwork.value?.title} — Jos Ceunen`,
   description: () => artwork.value?.title ?? 'Kunstwerk',
@@ -45,7 +36,7 @@ useSeoMeta({
     </div>
     <div>
       <h1>{{ artwork.title }}</h1>
-      <p v-if="artwork.date" class="artwork-detail__date">{{ formatDate(artwork.date) }}</p>
+      <p v-if="artwork.year" class="artwork-detail__date">{{ artwork.year }}</p>
       <div
         v-if="artwork.techniques?.length || artwork.themes?.length"
         class="artwork-detail__meta"

@@ -25,7 +25,7 @@ const { data: relatedArtworks } = await useAsyncData(
     if (!themeSlugs.value.length) return Promise.resolve([] as Artwork[])
 
     const params: Record<string, string | number> = {
-      sort: 'date:desc',
+      sort: 'year:desc',
       'populate[images]': 'true',
       'populate[techniques]': 'true',
       'populate[themes]': 'true',

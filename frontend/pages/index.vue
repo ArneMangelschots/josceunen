@@ -1,19 +1,40 @@
 <script setup lang="ts">
-import type { Homepage } from '~/types/strapi'
+import type { Artwork, Homepage } from '~/types/strapi'
 
 definePageMeta({
   layout: 'landing',
 })
 
-const { fetchSingle, getMediaSrcSet } = useStrapi()
+const { fetchSingle, fetchCollection, getMediaSrcSet } = useStrapi()
 
-const { data: homepage } = await useAsyncData('homepage', () =>
-  fetchSingle<Homepage>('/api/homepage', {
+function pickRandom<T>(items: T[], count: number): T[] {
+  const copy = [...items]
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[copy[i], copy[j]] = [copy[j], copy[i]]
+  }
+  return copy.slice(0, count)
+}
+
+const { data: featured } = await useAsyncData('homepage-featured', async () => {
+  const homepage = await fetchSingle<Homepage>('/api/homepage', {
     'populate[featuredArtworks][populate][images]': 'true',
   })
-)
 
-const featured = computed(() => (homepage.value?.featuredArtworks ?? []).slice(0, 4))
+  const selected = (homepage?.featuredArtworks ?? []).slice(0, 4)
+  if (selected.length > 0) return selected
+
+  const artworks = await fetchCollection<Artwork>('/api/artworks', {
+    'populate[images]': 'true',
+    sort: 'year:desc',
+    'pagination[pageSize]': 50,
+  })
+
+  return pickRandom(
+    artworks.filter((artwork) => artwork.images?.length),
+    4
+  )
+})
 
 const floatPositions = [
   { top: '12%', left: '8%', delay: '0s', size: 'clamp(7.5rem, 18vw, 13.5rem)' },

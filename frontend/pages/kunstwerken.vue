@@ -44,8 +44,8 @@ const { data: themes } = await useAsyncData('themes', () =>
 
 const { data: yearSource } = await useAsyncData('artwork-years', () =>
   fetchCollection<Artwork>('/api/artworks', {
-    'fields[0]': 'date',
-    sort: 'date:desc',
+    'fields[0]': 'year',
+    sort: 'year:desc',
     'pagination[pageSize]': 100,
   })
 )
@@ -53,7 +53,7 @@ const { data: yearSource } = await useAsyncData('artwork-years', () =>
 const years = computed(() => {
   const set = new Set<number>()
   for (const artwork of yearSource.value ?? []) {
-    if (artwork.date) set.add(new Date(artwork.date).getFullYear())
+    if (artwork.year) set.add(Number(artwork.year))
   }
   return [...set].sort((a, b) => b - a)
 })

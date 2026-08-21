@@ -1,6 +1,6 @@
 import type { Core } from '@strapi/strapi';
 
-const LAYOUT_VERSION = 4;
+const LAYOUT_VERSION = 5;
 const VERSION_KEY = 'josceunen.admin_layout_version';
 
 type CmConfig = {
@@ -101,30 +101,35 @@ async function configureArtworkAdmin(strapi: Core.Strapi) {
     searchable: true,
     pageSize: 25,
     mainField: 'title',
-    defaultSortBy: 'date',
+    defaultSortBy: 'year',
     defaultSortOrder: 'DESC',
     relationOpenMode: 'modal',
   };
 
   config.layouts.edit = [
-    [{ name: 'title', size: 8 }, { name: 'date', size: 4 }],
+    [{ name: 'title', size: 8 }, { name: 'year', size: 4 }],
     [{ name: 'slug', size: 12 }],
     [{ name: 'images', size: 12 }],
     [{ name: 'techniques', size: 6 }, { name: 'themes', size: 6 }],
     [{ name: 'info', size: 12 }],
   ];
 
-  config.layouts.list = ['title', 'date', 'images'];
+  config.layouts.list = ['title', 'year', 'images'];
 
   setFieldMeta(config, 'title', {
     editLabel: 'Titel',
     listLabel: 'Titel',
     description: 'Naam van het kunstwerk zoals die op de website verschijnt.',
   });
+  setFieldMeta(config, 'year', {
+    editLabel: 'Jaar',
+    listLabel: 'Jaar',
+    description: 'Jaar van het werk. Gebruikt voor sortering en het jaarfilter.',
+  });
   setFieldMeta(config, 'date', {
-    editLabel: 'Datum',
-    listLabel: 'Datum',
-    description: 'Jaar of datum van het werk. Gebruikt voor sortering en het jaarfilter.',
+    visible: false,
+    editable: false,
+    listVisible: false,
   });
   setFieldMeta(config, 'images', {
     editLabel: 'Afbeeldingen',
@@ -289,7 +294,8 @@ async function configureHomepageAdmin(strapi: Core.Strapi) {
 
   setFieldMeta(config, 'featuredArtworks', {
     editLabel: 'Uitgelichte kunstwerken',
-    description: 'Kies 4 kunstwerken die rond het logo op de homepage zweven.',
+    description:
+      'Kies tot 4 kunstwerken die rond het logo op de homepage zweven. Laat leeg om automatisch 4 willekeurige werken te tonen.',
   });
 
   await saveCmConfig(strapi, 'api::homepage.homepage', config, id);
