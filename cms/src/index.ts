@@ -4,6 +4,7 @@ import { seedContent } from './utils/seed';
 import { configureAdminExperience } from './utils/adminLayout';
 import { migrateArtworkYears } from './utils/migrateArtworkYears';
 import { ensureEditorArtworkYearPermission } from './utils/ensureEditorArtworkYearPermission';
+import { ensureTagSlugs } from './utils/ensureTagSlugs';
 
 export default {
   register(/* { strapi }: { strapi: Core.Strapi } */) {},
@@ -13,6 +14,12 @@ export default {
       await migrateArtworkYears(strapi);
     } catch (error) {
       strapi.log.error('Artwork year migration failed (non-fatal)');
+      strapi.log.error(error);
+    }
+    try {
+      await ensureTagSlugs(strapi);
+    } catch (error) {
+      strapi.log.error('Tag slug backfill failed (non-fatal)');
       strapi.log.error(error);
     }
     await setPublicPermissions(strapi);

@@ -1,6 +1,6 @@
 import type { Core } from '@strapi/strapi';
 
-const LAYOUT_VERSION = 7;
+const LAYOUT_VERSION = 8;
 const VERSION_KEY = 'josceunen.admin_layout_version';
 
 type CmConfig = {
@@ -175,8 +175,10 @@ async function configureTagAdmin(
     pageSize: 50,
   };
 
-  config.layouts.edit = [[{ name: 'name', size: 12 }]];
-  config.layouts.list = ['name'];
+  config.layouts.edit = [
+    [{ name: 'name', size: 8 }, { name: 'slug', size: 4 }],
+  ];
+  config.layouts.list = ['name', 'slug'];
 
   setFieldMeta(config, 'name', {
     editLabel: 'Naam',
@@ -184,8 +186,11 @@ async function configureTagAdmin(
     description: labels.nameDesc,
   });
   setFieldMeta(config, 'slug', {
-    visible: false,
-    editable: false,
+    editLabel: 'URL-naam',
+    listLabel: 'URL-naam',
+    description: 'Wordt automatisch vanuit de naam aangemaakt. Nodig om te kunnen publiceren.',
+    visible: true,
+    editable: true,
   });
   setFieldMeta(config, 'artworks', {
     visible: false,

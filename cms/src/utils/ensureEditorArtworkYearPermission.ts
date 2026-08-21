@@ -1,6 +1,5 @@
 import type { Core } from '@strapi/strapi';
 
-const ARTWORK_UID = 'api::artwork.artwork';
 const EDITOR_CODE = 'strapi-editor';
 
 type PermissionProperties = {
@@ -8,34 +7,29 @@ type PermissionProperties = {
   [key: string]: unknown;
 };
 
-/**
- * When `year` replaced/added on artworks, Editor RBAC field lists still had `date`.
- * Ensure `year` is allowed for create/read/update (and publish if present).
- */
-export async function ensureEditorArtworkYearPermission(strapi: Core.Strapi) {
+async function ensureEditorFields(
+  strapi: Core.Strapi,
+  subject: string,
+  fieldsToAdd: string[],
+  fieldsToRemove: string[] = []
+) {
   const editor = await strapi.db.query('admin::role').findOne({
     where: { code: EDITOR_CODE },
   });
+  if (!editor) return 0;
 
-  if (!editor) {
-    strapi.log.warn('Editor admin role not found; skipping year field permission');
-    return;
-  }
-
-  const permissions = await strapi.db.query('admin::permission').findMany({
+  let rows = await strapi.db.query('admin::permission').findMany({
     where: {
-      subject: ARTWORK_UID,
+      subject,
       role: editor.id,
     },
   });
 
-  // Fallback: Strapi 5 may store the role link differently
-  let rows = permissions;
   if (!rows.length) {
     rows = await strapi.db.connection('admin_permissions as p')
       .join('admin_permissions_role_lnk as l', 'l.permission_id', 'p.id')
       .where('l.role_id', editor.id)
-      .andWhere('p.subject', ARTWORK_UID)
+      .andWhere('p.subject', subject)
       .select('p.id', 'p.action', 'p.properties');
   }
 
@@ -56,16 +50,19 @@ export async function ensureEditorArtworkYearPermission(strapi: Core.Strapi) {
       properties = { ...(raw as PermissionProperties) };
     }
 
-    // Empty fields array can mean "all fields" in some Strapi versions;
-    // only patch when an explicit field list is present.
     if (!Array.isArray(properties.fields) || properties.fields.length === 0) {
       continue;
     }
 
-    if (properties.fields.includes('year')) continue;
-
-    const fields = properties.fields.filter((field) => field !== 'date');
-    if (!fields.includes('year')) fields.push('year');
+    let fields = properties.fields.filter((field) => !fieldsToRemove.includes(field));
+    let changed = fields.length !== properties.fields.length;
+    for (const field of fieldsToAdd) {
+      if (!fields.includes(field)) {
+        fields.push(field);
+        changed = true;
+      }
+    }
+    if (!changed) continue;
 
     await strapi.db.query('admin::permission').update({
       where: { id: permission.id },
@@ -79,7 +76,37 @@ export async function ensureEditorArtworkYearPermission(strapi: Core.Strapi) {
     updated += 1;
   }
 
+  return updated;
+}
+
+/**
+ * When `year` replaced/added on artworks, Editor RBAC field lists still had `date`.
+ * Ensure `year` is allowed for create/read/update (and publish if present).
+ */
+export async function ensureEditorArtworkYearPermission(strapi: Core.Strapi) {
+  const updated = await ensureEditorFields(
+    strapi,
+    'api::artwork.artwork',
+    ['year'],
+    ['date']
+  );
   if (updated > 0) {
     strapi.log.info(`Granted Editor access to artwork year on ${updated} permission(s)`);
+  }
+
+  const techniqueUpdated = await ensureEditorFields(
+    strapi,
+    'api::technique.technique',
+    ['slug']
+  );
+  if (techniqueUpdated > 0) {
+    strapi.log.info(
+      `Granted Editor access to technique slug on ${techniqueUpdated} permission(s)`
+    );
+  }
+
+  const themeUpdated = await ensureEditorFields(strapi, 'api::theme.theme', ['slug']);
+  if (themeUpdated > 0) {
+    strapi.log.info(`Granted Editor access to theme slug on ${themeUpdated} permission(s)`);
   }
 }
