@@ -124,7 +124,7 @@ async function configureArtworkAdmin(strapi: Core.Strapi) {
   setFieldMeta(config, 'year', {
     editLabel: 'Jaar',
     listLabel: 'Jaar',
-    description: 'Jaar van het werk. Gebruikt voor sortering en het jaarfilter.',
+    description: 'Jaar van het werk (bijv. 2024). Gebruikt voor sortering en het jaarfilter.',
   });
   setFieldMeta(config, 'date', {
     visible: false,

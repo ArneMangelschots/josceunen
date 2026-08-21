@@ -1,7 +1,8 @@
 import type { Core } from '@strapi/strapi';
-import { ARTWORK_YEAR_OPTIONS } from './artworkYears';
 
 const FLAG_KEY = 'josceunen.artwork_year_migrated';
+const MIN_YEAR = 1970;
+const MAX_YEAR = 2035;
 
 /**
  * Copy year from legacy `date` onto `year` once, then hide/ignore date in admin.
@@ -22,8 +23,8 @@ export async function migrateArtworkYears(strapi: Core.Strapi) {
   let updated = 0;
   for (const row of rows) {
     if (row.year || !row.date) continue;
-    const year = String(new Date(row.date as string).getFullYear());
-    if (!ARTWORK_YEAR_OPTIONS.includes(year)) continue;
+    const year = new Date(row.date as string).getFullYear();
+    if (year < MIN_YEAR || year > MAX_YEAR) continue;
 
     await strapi.db.query('api::artwork.artwork').update({
       where: { id: row.id },

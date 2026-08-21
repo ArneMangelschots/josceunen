@@ -95,8 +95,8 @@ export interface Artwork {
   documentId: string
   title: string
   slug: string
-  year?: string | null
-  date?: string | null
+    year?: string | number | null
+    date?: string | null
   info?: StrapiBlockNode[] | null
   images?: StrapiMedia[]
   techniques?: Technique[]
