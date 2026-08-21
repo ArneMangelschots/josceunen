@@ -52,7 +52,7 @@ async function attachSeedImages(strapi: Core.Strapi) {
   );
 
   const artworks = await strapi.documents('api::artwork.artwork').findMany({
-    sort: { year: 'desc' },
+    sort: 'year:desc',
   });
 
   for (let i = 0; i < artworks.length; i++) {
@@ -84,7 +84,7 @@ async function ensureHomepage(strapi: Core.Strapi) {
   const artworks = await strapi.documents('api::artwork.artwork').findMany({
     status: 'published',
     limit: 4,
-    sort: { year: 'desc' },
+    sort: 'year:desc',
   });
 
   if (!artworks.length) return;
@@ -254,7 +254,7 @@ export async function seedContent(strapi: Core.Strapi) {
   const createdArtworks = await strapi.documents('api::artwork.artwork').findMany({
     status: 'published',
     limit: 4,
-    sort: { year: 'desc' },
+    sort: 'year:desc',
   });
 
   await strapi.documents('api::homepage.homepage').create({
