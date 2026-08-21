@@ -164,7 +164,7 @@ export async function seedContent(strapi: Core.Strapi) {
       title: 'Licht over het veld',
       slug: 'licht-over-het-veld',
       date: '2024-03-15',
-      year: '2024',
+      year: '2024' as const,
       info: blockParagraph(
         'Een landschap waarin licht en kleur de hoofdrol spelen. Geschilderd in olieverf met aandacht voor atmosfeer en textuur.'
       ),
@@ -176,7 +176,7 @@ export async function seedContent(strapi: Core.Strapi) {
       title: 'Stille reflectie',
       slug: 'stille-reflectie',
       date: '2023-11-02',
-      year: '2023',
+      year: '2023' as const,
       info: blockParagraph(
         'Een ingetogen stilleven met zachte schaduwen en een warm kleurenpalet.'
       ),
@@ -188,7 +188,7 @@ export async function seedContent(strapi: Core.Strapi) {
       title: 'Gezicht in verleden tijd',
       slug: 'gezicht-in-verleden-tijd',
       date: '2025-01-20',
-      year: '2025',
+      year: '2025' as const,
       info: blockParagraph(
         'Portretstudie met nadruk op expressie en handgevoerde penseelstreken.'
       ),
@@ -200,7 +200,7 @@ export async function seedContent(strapi: Core.Strapi) {
       title: 'Horizonlijnen',
       slug: 'horizonlijnen',
       date: '2024-08-09',
-      year: '2024',
+      year: '2024' as const,
       info: blockParagraph(
         'Abstract landschap waarin horizon en lucht samensmelten in gelaagde verf.'
       ),
