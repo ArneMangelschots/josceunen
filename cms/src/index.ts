@@ -3,6 +3,7 @@ import { setPublicPermissions } from './utils/permissions';
 import { seedContent } from './utils/seed';
 import { configureAdminExperience } from './utils/adminLayout';
 import { migrateArtworkYears } from './utils/migrateArtworkYears';
+import { ensureEditorArtworkYearPermission } from './utils/ensureEditorArtworkYearPermission';
 
 export default {
   register(/* { strapi }: { strapi: Core.Strapi } */) {},
@@ -17,5 +18,11 @@ export default {
     await setPublicPermissions(strapi);
     await seedContent(strapi);
     await configureAdminExperience(strapi);
+    try {
+      await ensureEditorArtworkYearPermission(strapi);
+    } catch (error) {
+      strapi.log.error('Editor year permission update failed (non-fatal)');
+      strapi.log.error(error);
+    }
   },
 };

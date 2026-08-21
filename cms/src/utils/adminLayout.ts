@@ -1,6 +1,6 @@
 import type { Core } from '@strapi/strapi';
 
-const LAYOUT_VERSION = 6;
+const LAYOUT_VERSION = 7;
 const VERSION_KEY = 'josceunen.admin_layout_version';
 
 type CmConfig = {
@@ -125,6 +125,8 @@ async function configureArtworkAdmin(strapi: Core.Strapi) {
     editLabel: 'Jaar',
     listLabel: 'Jaar',
     description: 'Jaar van het werk als 4 cijfers, bijvoorbeeld 2014.',
+    visible: true,
+    editable: true,
   });
   setFieldMeta(config, 'date', {
     visible: false,
