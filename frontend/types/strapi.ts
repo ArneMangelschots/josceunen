@@ -116,6 +116,18 @@ export interface Homepage {
   featuredArtworks?: Artwork[]
 }
 
+export interface BlogPost {
+  id: number
+  documentId: string
+  title: string
+  slug: string
+  date?: string | null
+  intro?: string | null
+  image?: StrapiMedia | null
+  body?: StrapiBlockNode[] | null
+  themes?: Theme[]
+}
+
 /** Strapi v5 flattened document shape */
 export function isFlatArtwork(item: Record<string, unknown>): item is Artwork {
   return typeof item.title === 'string' && typeof item.slug === 'string'

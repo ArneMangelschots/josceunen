@@ -1,6 +1,6 @@
 import type { Core } from '@strapi/strapi';
 
-const LAYOUT_VERSION = 3;
+const LAYOUT_VERSION = 4;
 const VERSION_KEY = 'josceunen.admin_layout_version';
 
 type CmConfig = {
@@ -184,8 +184,77 @@ async function configureTagAdmin(
     visible: false,
     editable: false,
   });
+  if (uid === 'api::theme.theme') {
+    setFieldMeta(config, 'blogPosts', {
+      visible: false,
+      editable: false,
+    });
+  }
 
   await saveCmConfig(strapi, uid, config, id);
+}
+
+async function configureBlogPostAdmin(strapi: Core.Strapi) {
+  const { id, config } = await loadCmConfig(strapi, 'api::blog-post.blog-post');
+
+  config.settings = {
+    ...config.settings,
+    bulkable: true,
+    filterable: true,
+    searchable: true,
+    pageSize: 25,
+    mainField: 'title',
+    defaultSortBy: 'date',
+    defaultSortOrder: 'DESC',
+    relationOpenMode: 'modal',
+  };
+
+  config.layouts.edit = [
+    [{ name: 'title', size: 8 }, { name: 'date', size: 4 }],
+    [{ name: 'slug', size: 12 }],
+    [{ name: 'image', size: 12 }],
+    [{ name: 'intro', size: 12 }],
+    [{ name: 'themes', size: 12 }],
+    [{ name: 'body', size: 12 }],
+  ];
+
+  config.layouts.list = ['title', 'date', 'image'];
+
+  setFieldMeta(config, 'title', {
+    editLabel: 'Titel',
+    listLabel: 'Titel',
+    description: 'Titel van het blogbericht zoals die op de website verschijnt.',
+  });
+  setFieldMeta(config, 'date', {
+    editLabel: 'Datum',
+    listLabel: 'Datum',
+    description: 'Publicatiedatum. Het nieuwste bericht verschijnt bovenaan als uitgelichte teaser.',
+  });
+  setFieldMeta(config, 'slug', {
+    editLabel: 'URL-naam',
+    description: 'Wordt automatisch vanuit de titel aangemaakt. Nodig om te kunnen publiceren.',
+    visible: true,
+    editable: true,
+  });
+  setFieldMeta(config, 'image', {
+    editLabel: 'Afbeelding',
+    listLabel: 'Afbeelding',
+    description: 'Coverafbeelding voor de teaser en de kop van de detailpagina.',
+  });
+  setFieldMeta(config, 'intro', {
+    editLabel: 'Intro',
+    description: 'Korte introtekst voor de uitgelichte teaser op de blogoverzichtspagina.',
+  });
+  setFieldMeta(config, 'themes', {
+    editLabel: 'Thema’s',
+    description: 'Thema’s om gerelateerde kunstwerken op de detailpagina te tonen.',
+  });
+  setFieldMeta(config, 'body', {
+    editLabel: 'Tekst',
+    description: 'Volledige inhoud van het blogbericht.',
+  });
+
+  await saveCmConfig(strapi, 'api::blog-post.blog-post', config, id);
 }
 
 async function configureAboutAdmin(strapi: Core.Strapi) {
@@ -247,6 +316,7 @@ export async function configureAdminExperience(strapi: Core.Strapi) {
   });
   await configureAboutAdmin(strapi);
   await configureHomepageAdmin(strapi);
+  await configureBlogPostAdmin(strapi);
 
   const versionValue = String(LAYOUT_VERSION);
   if (versionRow) {

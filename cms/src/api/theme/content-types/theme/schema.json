@@ -25,6 +25,13 @@
       "relation": "manyToMany",
       "target": "api::artwork.artwork",
       "mappedBy": "themes"
+    },
+    "blogPosts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::blog-post.blog-post",
+      "mappedBy": "themes"
     }
   }
 }
+

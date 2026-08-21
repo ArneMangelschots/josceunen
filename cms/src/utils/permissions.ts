@@ -4,6 +4,7 @@ const PUBLIC_ACTIONS: Record<string, string[]> = {
   'api::technique.technique': ['find', 'findOne'],
   'api::theme.theme': ['find', 'findOne'],
   'api::artwork.artwork': ['find', 'findOne'],
+  'api::blog-post.blog-post': ['find', 'findOne'],
   'api::about.about': ['find'],
   'api::homepage.homepage': ['find'],
 };
